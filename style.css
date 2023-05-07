@@ -1,0 +1,39 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: chartreuse;
+  }
+
+body {
+  box-sizing: border-box;
+  box-shadow: rgb(0, 0, 0) 0px 0px 12px -2px;;
+}
+main {
+    box-sizing: border-box;
+    position: relative;
+    text-align: center;
+    padding: 16px;
+    font-size: 2rem;
+    color: black;
+  }
+
+  .game-board {
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    grid-template-rows: 33% 33% 33%;
+    max-width: 19rem;
+}
+
+.cell {
+    border: 1px solid black;
+    min-width: 6.25rem;
+    min-height: 6.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    cursor: pointer;
+}

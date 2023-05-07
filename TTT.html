@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arcade</title>
+    <script src="TTTapp.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <main>
+        <h1>Cam's Arcade</h1>
+        <H2>Tic Tac Toe</H2>
+            <Section>
+                <section class="player-selection">
+                    <span id="display-player"></span>
+                    <br>
+                    <button id="player-vs-player">Play with a Friend!</button>
+                    <button id="player-vs-computer">Computer</button>
+                    <div id="player-names">
+                        <input type="text" id="playerX-name" placeholder="Player X name">
+                        <input type="text" id="playerO-name" placeholder="Player O name">
+                    </div>
+                    <select id="computer-difficulty-select">
+                        <option value="easy">Normal</option>
+                        <option value="brainy">Brainy</option>
+                        <option value="super-brainy">Super Brainy</option>
+                    </select>
+                </section>
+                <div class="game-board">
+                    <Div class="cell" id="cell1"></Div>
+                    <Div class="cell" id="cell2"></Div>
+                    <Div class="cell" id="cell3"></Div>
+                    <Div class="cell" id="cell4"></Div>
+                    <Div class="cell" id="cell5"></Div>
+                    <Div class="cell" id="cell6"></Div>
+                    <Div class="cell" id="cell7"></Div>
+                    <Div class="cell" id="cell8"></Div>
+                    <Div class="cell" id="cell9"></Div>
+                </div>
+                <section id="who-won-message"></section>
+                <button id="reset-button">Reset</button>
+            </Section>
+    <Main>
+</body>
+</html>
