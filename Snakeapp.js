@@ -40,14 +40,14 @@ startButton.addEventListener('click', function() {
         snake.nextDirection = "up";
         gameStarted = true;
         gameInterval = setInterval(gameLoop, 200);
-    }
+    };
 });
 
 document.addEventListener("keydown", function(event) {
     const direction = getDirectionFromKey(event.key);
     if (direction !== null && isValidDirection(direction, snake.nextDirection)) {
         snake.nextDirection = direction;
-    }
+    };
 });
 
 function getDirectionFromKey(key) {
@@ -155,7 +155,7 @@ playAgainButton.addEventListener('click', function() {
         gameInterval = setInterval(gameLoop, 200);
     } else {
         initializeGame();
-    }
+    };
 });
   
 function resetGame() {
@@ -213,6 +213,6 @@ function drawCheckerboard() {
                 ctx.fillStyle = 'lightgray';
             }
             ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
-        }
-    }
-}
+        };
+    };
+};
