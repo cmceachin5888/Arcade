@@ -5,13 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arcade</title>
+    <script src="main.js" defer></script>
     <script src="TTTapp.js" defer></script>
+    <script src="Snakeapp.js" defer></script>
     <link rel="stylesheet" href="style.css">
 
 </head>
 <body>
     <main>
         <h1>Cam's Arcade</h1>
+        <br>
+        <select id="gameSelector">
+            <option value="selectOne">Select Game</option>
+            <option value="tic-tac-toe">Tic Tac Toe</option>
+            <option value="snake">Snake</option>
+        </select>
+        <br>
+        <br>
+        <div id="TTTGame" style="display: none;">
         <H2>Tic Tac Toe</H2>
             <Section>
                 <section class="player-selection">
@@ -43,6 +54,17 @@
                 <section id="who-won-message"></section>
                 <button id="reset-button">Reset</button>
             </Section>
+        </div>
+            <br>
+        <div id="snakeGame" style="display: none;">
+        <h2>Snake</h2>
+            <div id="displayScore">0</div>
+            <div id="highScore">0</div>
+            <canvas id="gameBoard" width="500" height="500"></canvas>
+            <div id="popup">
+                <button id="playAgain">Play Again</button>
+            </div>
+        </div>
     <Main>
 </body>
 </html>

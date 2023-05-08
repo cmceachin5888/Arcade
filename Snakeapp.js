@@ -1,4 +1,6 @@
-//Snake//
+function initializeSnake() {
+    document.getElementById('snakeGame').style.display = "inline-block";
+};
 
 const gameBoard = document.getElementById('gameBoard');
 const scoreCount = document.getElementById('displayScore');
@@ -7,7 +9,7 @@ const ctx = gameBoard.getContext("2d");
 const playAgainButton = document.getElementById('playAgain')
 
 let snake = {
-    body: [ [10, 5], [10, 6], [10, 7], [10, 8] ],
+    body: [ [5, 10], [6, 10], [7, 10] ],
     nextDirection: null
 };
 
@@ -17,19 +19,26 @@ let gameState = {
 };
 
 let score = 0;
-let highestScore = 0;
 let gameStarted = false;
 let gameInterval;
-let gameOver = true;
+const cellSize = 30;
+const boardWidth = 17;
+const boardHeight = 15;
+gameBoard.width = boardWidth * cellSize;
+gameBoard.height = boardHeight * cellSize;
+scoreCount.textContent = 'Score: ' + score;
+highScore.textContent = 'High Score: ' + score;
 
+drawCheckerboard();
 drawSnake();
 drawApple();
 
 document.addEventListener("keydown", function (event) {
+
     if (!gameStarted) {
         snake.nextDirection = getDirectionFromKey(event.key);
         gameStarted = true;
-        gameInterval = setInterval(gameLoop, 100);
+        gameInterval = setInterval(gameLoop, 200);
     } else {
         const direction = getDirectionFromKey(event.key);
         if (direction !== null && isValidDirection(direction, snake.nextDirection)) {
@@ -62,35 +71,38 @@ function isValidDirection(direction, currentDirection) {
     );
 };
 
-function gameLoop() {
-    if (gameOver) {
-        return;
+function initializeGame() {
+    snake = {
+        body: [[5, 10], [6, 10], [7, 10]],
+        nextDirection: null
     };
+    gameState.apple = [11, 8];
+    drawCheckerboard();
+    drawSnake();
+    drawApple();
+};
 
+function gameLoop() {
     const head = snake.body[0];
     const [dx, dy] = getDirectionVector(snake.nextDirection);
     const newHead = [head[0] + dx, head[1] + dy];
     snake.body.unshift(newHead);
     snake.body.pop();
 
-    if (touchesWall(newHead)) {
+    if (touchesWall(newHead) || touchesSelf()) {
         endGame();
         return;
     };
 
     if (arraysAreEqual(newHead, gameState.apple)) {
         score++
-        scoreCount.textContent = score;
+        scoreCount.textContent = 'Score: ' + score;
         spawnApple();
         growSnake();
     };
 
-    if (touchesSelf()) {
-        endGame();
-        return;
-    };
-
-    ctx.clearRect(0, 0, gameBoard.width, gameBoard.height);
+    ctx.clearRect(0, 0, boardWidth, boardHeight);
+    drawCheckerboard();
     drawSnake();
     drawApple();
 };
@@ -109,47 +121,46 @@ function getDirectionVector(direction) {
 };
 
 function touchesWall([x, y]) {
-    return x < 0 || x >= gameBoard.width / 10 || y < 0 || y >= gameBoard.height / 10;
+    return x < 0 || x >= boardWidth || y < 0 || y >= boardHeight;
 };
 
 function endGame() {
     clearInterval(gameInterval);
 
-    snake = {
-        body: [[10, 5], [10, 6], [10, 7], [10, 8]],
-        nextDirection: 'right'
-    };
-
-    gameState = {
-        apple: [11, 8],
-        snake: snake
-    };
-
-    if (score > 0) {
-        if (score > parseInt(highScore.textContent)) {
-            highScore.textContent = score;
+    if (score >= 0) {
+        if (score > parseInt(highScore.textContent.split(" ")[2])) {
+            highScore.textContent = 'High Score: ' + score;
             alert("New high score!");
         } else {
             alert("You lose.");
-        }
-    }
-
+        };
+    };
     score = 0;
-    scoreCount.textContent = score;
-
+    scoreCount.textContent = 'Score: ' + score;
     gameStarted = false;
 };
 
 playAgainButton.addEventListener('click', function() {
     if (!gameStarted) {
+        initializeGame();
         gameStarted = true;
-        gameInterval = setInterval(gameLoop, 100);
+        gameInterval = setInterval(gameLoop, 200);
+    } else {
+        resetGame();
+        gameStarted = false;
     };
 });
+  
+function resetGame() {
+    clearInterval(gameInterval);
+    score = 0;
+    scoreCount.textContent = 'Score: ' + score;
+    initializeGame();
+}
 
 function spawnApple() {
-    const x = Math.floor(Math.random() * (gameBoard.width / 10));
-    const y = Math.floor(Math.random() * (gameBoard.height / 10));
+    const x = Math.floor(Math.random() * (boardWidth));
+    const y = Math.floor(Math.random() * (boardHeight));
     gameState.apple = [x, y];
 };
 
@@ -177,16 +188,26 @@ function arraysAreEqual(arr1, arr2) {
 function drawSnake() {
     ctx.fillStyle = 'green';
     snake.body.forEach(segment => {
-      const [x, y] = segment;
-      ctx.fillRect(x * 10, y * 10, 10, 10);
+        const [x, y] = segment;
+        ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize)
     });
 };
   
 function drawApple() {
     ctx.fillStyle = 'red';
     const [x, y] = gameState.apple;
-    ctx.fillRect(x * 10, y * 10, 10, 10);
+    ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize)
 };
 
-
-
+function drawCheckerboard() {
+    for (let y = 0; y < boardHeight; y++) {
+        for (let x = 0; x < boardWidth; x++) {
+            if ((x + y) % 2 === 0) {
+                ctx.fillStyle = 'white';
+            } else {
+                ctx.fillStyle = 'lightgray';
+            }
+            ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+        }
+    }
+}

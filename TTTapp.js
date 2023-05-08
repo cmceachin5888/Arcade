@@ -1,4 +1,9 @@
 //Tic Tac Toe//
+function initializeTTT() {
+    document.getElementById('TTTGame').style.display = "inline-block";
+};
+
+
 const cells = document.querySelectorAll('.cell');
 const playerDisplay = document.getElementById('display-player');
 const resetButton = document.getElementById('reset-button');
@@ -8,7 +13,6 @@ const playerVsComputerButton = document.getElementById('player-vs-computer');
 const computerDifficultySelect = document.querySelector('#computer-difficulty-select');
 const playerXName = document.getElementById('playerX-name');
 const playerOName = document.getElementById('playerO-name');
-
 
 let currentPlayer = 'PlayerX';
 let isComputerPlaying = false;
@@ -236,6 +240,7 @@ function switchPlayers() {
 };
 
 function updateDisplay() {
+    
     if (message.textContent) {
         playerDisplay.textContent = 'Game Over';
     } else {
