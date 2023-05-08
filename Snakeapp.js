@@ -6,7 +6,9 @@ const gameBoard = document.getElementById('gameBoard');
 const scoreCount = document.getElementById('displayScore');
 const highScore = document.getElementById('highScore');
 const ctx = gameBoard.getContext("2d");
+const startButton = document.getElementById('startButton')
 const playAgainButton = document.getElementById('playAgain')
+
 
 let snake = {
     body: [ [5, 10], [6, 10], [7, 10] ],
@@ -33,18 +35,19 @@ drawCheckerboard();
 drawSnake();
 drawApple();
 
-document.addEventListener("keydown", function (event) {
-
+startButton.addEventListener('click', function() {
     if (!gameStarted) {
-        snake.nextDirection = getDirectionFromKey(event.key);
+        snake.nextDirection = "up";
         gameStarted = true;
         gameInterval = setInterval(gameLoop, 200);
-    } else {
-        const direction = getDirectionFromKey(event.key);
-        if (direction !== null && isValidDirection(direction, snake.nextDirection)) {
-            snake.nextDirection = direction;
-        };
-    };
+    }
+});
+
+document.addEventListener("keydown", function(event) {
+    const direction = getDirectionFromKey(event.key);
+    if (direction !== null && isValidDirection(direction, snake.nextDirection)) {
+        snake.nextDirection = direction;
+    }
 });
 
 function getDirectionFromKey(key) {
@@ -77,6 +80,8 @@ function initializeGame() {
         nextDirection: null
     };
     gameState.apple = [11, 8];
+    score = 0;
+    scoreCount.textContent = 'Score: ' + score;
     drawCheckerboard();
     drawSnake();
     drawApple();
@@ -109,14 +114,16 @@ function gameLoop() {
 
 function getDirectionVector(direction) {
     switch (direction) {
-      case 'left':
-        return [-1, 0];
-      case 'up':
-        return [0, -1];
-      case 'right':
-        return [1, 0];
-      case 'down':
-        return [0, 1];
+        case 'left':
+            return [-1, 0];
+        case 'up':
+            return [0, -1];
+        case 'right':
+            return [1, 0];
+        case 'down':
+            return [0, 1];
+        default:
+            return [0, 0];
     };
 };
 
@@ -141,22 +148,20 @@ function endGame() {
 };
 
 playAgainButton.addEventListener('click', function() {
-    if (!gameStarted) {
+    if (gameStarted) {
+        clearInterval(gameInterval);
+        gameStarted = false;
         initializeGame();
-        gameStarted = true;
         gameInterval = setInterval(gameLoop, 200);
     } else {
-        resetGame();
-        gameStarted = false;
-    };
+        initializeGame();
+    }
 });
   
 function resetGame() {
     clearInterval(gameInterval);
-    score = 0;
-    scoreCount.textContent = 'Score: ' + score;
     initializeGame();
-}
+};
 
 function spawnApple() {
     const x = Math.floor(Math.random() * (boardWidth));
